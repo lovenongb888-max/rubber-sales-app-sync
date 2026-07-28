@@ -1,6 +1,8 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "@/hooks/use-auth";
+import { trpc } from "@/lib/trpc";
 import {
   FlatList,
   Image,
@@ -40,6 +42,9 @@ const COLORS = {
 };
 
 const MAX_BASKETS = 30;
+
+// Sync status for cloud backup
+type SyncStatus = "idle" | "syncing" | "success" | "error";
 
 function getCurrentFormDateTime() {
   const now = new Date();
@@ -120,6 +125,11 @@ function EmptyHistory() {
 }
 
 export default function HomeScreen() {
+  const { isAuthenticated } = useAuth();
+  const syncMutation = trpc.salesSync.create.useMutation();
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>("idle");
+  const [lastSyncedId, setLastSyncedId] = useState<string | null>(null);
+  
   const initialForm = getCurrentFormDateTime();
   const [saleDate, setSaleDate] = useState(initialForm.date);
   const [saleTime, setSaleTime] = useState(initialForm.time);
