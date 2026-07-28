@@ -1,0 +1,21 @@
+{
+  "name": "Rubber | ระบบบันทึกการขายยางพารา",
+  "short_name": "Rubber",
+  "description": "ระบบบันทึกการขายยางพารา คำนวณน้ำหนัก ยอดเงิน และราคาเฉลี่ย",
+  "lang": "th",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#F8FCFA",
+  "theme_color": "#087A55",
+  "icons": [
+    {
+      "src": "/rubber-icon.png",
+      "sizes": "1920x1920",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
