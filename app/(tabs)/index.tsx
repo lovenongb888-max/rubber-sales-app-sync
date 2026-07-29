@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { trpc } from "@/lib/trpc";
+import { downloadReceiptPDF, type ReceiptData } from "@/lib/receipt-pdf-generator";
 import {
   FlatList,
   Image,
@@ -603,6 +604,25 @@ export default function HomeScreen() {
                     </View>
                   ))}
                 </View>
+                <Pressable
+                  accessibilityLabel="ดาวน์โหลดใบเสร็จรับเงิน"
+                  onPress={() => {
+                    const receiptData: ReceiptData = {
+                      date: selectedRecord.displayDate,
+                      time: selectedRecord.displayTime,
+                      pricePerKg: selectedRecord.pricePerKg,
+                      quantity: selectedRecord.basketWeights.length,
+                      totalWeight: selectedRecord.totalWeight,
+                      totalAmount: selectedRecord.totalAmount,
+                    };
+                    downloadReceiptPDF(receiptData);
+                    setNotice("ดาวน์โหลดใบเสร็จแล้ว");
+                  }}
+                  style={({ pressed }) => [styles.deleteButton, pressed && styles.pressed]}
+                >
+                  <MaterialIcons color={COLORS.primary} name="download" size={21} />
+                  <Text style={styles.deleteButtonText}>ดาวน์โหลดใบเสร็จ</Text>
+                </Pressable>
                 <Pressable
                   accessibilityLabel="ลบรายการนี้"
                   onPress={() => setRecordToDelete(selectedRecord)}
